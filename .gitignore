@@ -1,0 +1,40 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python cache and virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Runtime outputs
+logs/
+outputs/
+
+# Local scheduler/runtime scripts with machine-specific paths
+run_report.bat
+run_report_silent.vbs
+
+# Office and temporary files
+~$*
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.log
+
+# Local system/editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
