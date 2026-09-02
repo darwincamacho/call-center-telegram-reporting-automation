@@ -361,4 +361,4 @@ The project is presented as a portfolio-safe version of a business reporting aut
 Data Analyst | SQL Server | Python | Power BI | Business Intelligence | Sales Analytics
 
 - GitHub: [darwincamacho](https://github.com/darwincamacho)
-- LinkedIn: Add your LinkedIn profile URL
+- LinkedIn: www.linkedin.com/in/darwincamachoherrera
