@@ -1,8 +1,34 @@
-# Aplazaloh Production Reporting Automation
+# Call Center Telegram Reporting Automation
+
+> Python automation project for daily call center production reporting using SQL Server, pandas, Matplotlib and Telegram Bot API.
+
+![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-Data%20Processing-150458?logo=pandas&logoColor=white)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-Data%20Source-CC2927?logo=microsoftsqlserver&logoColor=white)
+![Telegram](https://img.shields.io/badge/Telegram-Bot%20API-26A5E4?logo=telegram&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-Data%20Visualization-11557C)
+![Automation](https://img.shields.io/badge/Automation-Scheduled%20Reporting-2563EB)
+![Business Intelligence](https://img.shields.io/badge/Business%20Intelligence-Operational%20KPIs-0F172A)
 
 Automatización en Python para generar y enviar un reporte operativo de producción de la campaña Aplazaloh. El proyecto consulta información desde SQL Server, genera indicadores diarios y mensuales, crea gráficos con Matplotlib y envía un resumen ejecutivo a Telegram.
 
 Este repositorio está preparado como proyecto de portafolio para roles de Data Analyst, BI Analyst o Analytics Engineer Junior. Los datos, credenciales y endpoints reales no se incluyen por seguridad.
+
+## 🧩 Process Workflow
+
+```mermaid
+flowchart TD
+    A["Operational Need<br/><br/>Daily production visibility"]
+    B["SQL Server Database<br/><br/>Sales and campaign data"]
+    C["Python Reporting Engine<br/><br/>Data extraction<br/>KPI calculation<br/>Chart generation"]
+    D["Telegram Delivery<br/><br/>Executive message<br/>Hourly chart<br/>Monthly chart"]
+    E["Business Monitoring<br/><br/>Daily tracking<br/>Goal attainment<br/>Supervisor alerts"]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```
 
 ## Resumen Ejecutivo
 
