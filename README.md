@@ -10,7 +10,7 @@
 ![Automation](https://img.shields.io/badge/Automation-Scheduled%20Reporting-2563EB)
 ![Business Intelligence](https://img.shields.io/badge/Business%20Intelligence-Operational%20KPIs-0F172A)
 
-## 📌 Executive Summary
+##  Executive Summary
 
 Call Center Telegram Reporting Automation is a Python-based reporting solution designed to automate daily production monitoring for call center operations.
 
@@ -18,7 +18,7 @@ The project connects to SQL Server, extracts operational sales data, calculates 
 
 This repository is prepared as a portfolio project for Data Analyst, BI Analyst and Junior Analytics Engineer roles. Real data, credentials, private endpoints and production outputs are not included for security reasons.
 
-## 🧩 Process Workflow
+##  Process Workflow
 
 ```mermaid
 flowchart TD
@@ -34,7 +34,7 @@ flowchart TD
     D --> E
 ```
 
-## 💼 Portfolio Case
+##  Portfolio Case
 
 | Category | Description |
 |---|---|
@@ -47,7 +47,7 @@ flowchart TD
 | Output | Executive message, hourly chart and monthly chart |
 | Target Roles | Data Analyst, BI Analyst, Analytics Engineer Jr |
 
-## 🎯 Business Problem
+##  Business Problem
 
 Call center operations require frequent visibility into production performance during the workday.
 
@@ -63,7 +63,7 @@ Without automation, this process usually depends on manual database queries, spr
 
 That creates operational friction, delays decision-making and increases the risk of inconsistent reporting.
 
-## 💡 Solution Overview
+##  Solution Overview
 
 This project automates the reporting workflow from data extraction to Telegram delivery.
 
@@ -80,7 +80,7 @@ The solution:
 
 The goal is not only to produce a report, but to create a repeatable and auditable reporting process.
 
-## 📊 Business Value
+##  Business Value
 
 This automation provides value by:
 
@@ -92,7 +92,7 @@ This automation provides value by:
 - Reducing dependency on manual SQL queries and spreadsheet-based reporting.
 - Creating a reusable reporting pattern for other campaigns.
 
-## ⚙️ Main Features
+##  Main Features
 
 - Secure configuration through environment variables.
 - SQL Server connection using ODBC.
@@ -108,7 +108,7 @@ This automation provides value by:
 - Designed for Windows Task Scheduler automation.
 - Portfolio-safe structure without real credentials or private data.
 
-## 🧠 Reporting Logic
+##  Reporting Logic
 
 The reporting process follows a simple business-oriented logic:
 
@@ -123,7 +123,7 @@ The reporting process follows a simple business-oriented logic:
 
 This structure allows business users to receive a concise view of campaign performance without manually accessing the database or preparing reports.
 
-## 🏗️ Technical Architecture
+##  Technical Architecture
 
 ```mermaid
 flowchart TD
@@ -143,7 +143,7 @@ flowchart TD
     A --> F
 ```
 
-## 🧰 Tech Stack
+##  Tech Stack
 
 | Technology | Purpose |
 |---|---|
@@ -159,7 +159,7 @@ flowchart TD
 | Telegram Bot API | Report delivery channel |
 | Windows Task Scheduler | Local process automation |
 
-## 📁 Project Structure
+##  Project Structure
 
 ```text
 .
@@ -187,7 +187,7 @@ The following local resources are excluded from the repository:
 - Real credentials
 - Private endpoints
 
-## 📤 Example Telegram Output
+##  Example Telegram Output
 
 ```text
 REPORTE PRODUCCIÓN APLAZALOH
@@ -207,7 +207,7 @@ FLG6: 45
 
 The values above are illustrative and do not represent real production data.
 
-## 🖼️ Generated Outputs
+##  Generated Outputs
 
 The automation generates:
 
@@ -218,7 +218,7 @@ The automation generates:
 
 The output files are generated locally and are not included in the repository because they may contain operational information.
 
-## 🔐 Environment Configuration
+##  Environment Configuration
 
 Create a local `.env` file from `.env.example`:
 
@@ -246,7 +246,7 @@ Security rules:
 - Do not expose Telegram tokens or chat IDs.
 - Regenerate exposed tokens immediately from BotFather.
 
-## 🤖 Telegram Bot Setup
+##  Telegram Bot Setup
 
 To enable Telegram delivery:
 
@@ -266,7 +266,7 @@ TELEGRAM_BOT_TOKEN=your_bot_token_here
 TELEGRAM_CHAT_ID=your_chat_id_here
 ```
 
-## 🚀 Installation
+##  Installation
 
 Create and activate a virtual environment:
 
@@ -287,7 +287,7 @@ The machine must also have a compatible SQL Server driver installed, such as:
 ODBC Driver 18 for SQL Server
 ```
 
-## ▶️ Manual Execution
+##  Manual Execution
 
 Run the main process:
 
@@ -297,7 +297,7 @@ python main.py
 
 The script validates the configured delivery window before generating and sending the report.
 
-## 🔎 Validate SQL Server Connection
+##  Validate SQL Server Connection
 
 To test the database connection:
 
@@ -307,7 +307,7 @@ python test_connection.py
 
 This test requires a valid local `.env` file.
 
-## 🧪 Validate Report Query
+##  Validate Report Query
 
 To test the main report query:
 
@@ -317,7 +317,7 @@ python test_report_query.py
 
 This allows query validation before running the full Telegram delivery process.
 
-## ⏱️ Automation with Windows Task Scheduler
+##  Automation with Windows Task Scheduler
 
 The project can be automated with Windows Task Scheduler using a local script that:
 
@@ -333,7 +333,7 @@ Recommendations:
 - Configure the execution frequency according to operational needs.
 - Review local logs when a scheduled execution fails.
 
-## 📈 Possible Extensions
+##  Possible Extensions
 
 Future improvements may include:
 
@@ -347,7 +347,7 @@ Future improvements may include:
 - Docker-based deployment.
 - Cloud deployment with Azure Functions or similar services.
 
-## ⚠️ Disclaimer
+##  Disclaimer
 
 This repository does not include internal data, credentials, tokens, chat IDs, private endpoints or real production outputs.
 
@@ -355,7 +355,7 @@ All sensitive variables must be configured only in a local `.env` file excluded 
 
 The project is presented as a portfolio-safe version of a business reporting automation pattern.
 
-## 👤 Author
+##  Author
 
 **Darwin Camacho**  
 Data Analyst | SQL Server | Python | Power BI | Business Intelligence | Sales Analytics
