@@ -1,364 +1,497 @@
-# Call Center Telegram Reporting Automation
+# Analítica de Recursos Humanos y Gestión de Dotación
 
-> Python automation project for daily call center production reporting using SQL Server, pandas, Matplotlib and Telegram Bot API.
+> Solución de People Analytics para análisis de dotación, rotación, retención, ausentismo, desempeño y capacitación utilizando Power BI, DAX, Python y SQL Server.
 
+![Power BI](https://img.shields.io/badge/Power%20BI-Dashboard-F2C811?logo=powerbi&logoColor=black)
+![DAX](https://img.shields.io/badge/DAX-Analytics-5E5E5E)
 ![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-Data%20Processing-150458?logo=pandas&logoColor=white)
-![SQL Server](https://img.shields.io/badge/SQL%20Server-Data%20Source-CC2927?logo=microsoftsqlserver&logoColor=white)
-![Telegram](https://img.shields.io/badge/Telegram-Bot%20API-26A5E4?logo=telegram&logoColor=white)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-Data%20Visualization-11557C)
-![Automation](https://img.shields.io/badge/Automation-Scheduled%20Reporting-2563EB)
-![Business Intelligence](https://img.shields.io/badge/Business%20Intelligence-Operational%20KPIs-0F172A)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-Data%20Layer-CC2927?logo=microsoftsqlserver&logoColor=white)
+![Power Query](https://img.shields.io/badge/Power%20Query-Data%20Transformation-217346)
+![People Analytics](https://img.shields.io/badge/People%20Analytics-HR%20KPIs-2563EB)
+![Business Intelligence](https://img.shields.io/badge/Business%20Intelligence-HR%20Analytics-0F172A)
 
-##  Executive Summary
+## Executive Summary
 
-Call Center Telegram Reporting Automation is a Python-based reporting solution designed to automate daily production monitoring for call center operations.
+**Analítica de Recursos Humanos y Gestión de Dotación** es una solución de People Analytics orientada al monitoreo integral de la fuerza laboral.
 
-The project connects to SQL Server, extracts operational sales data, calculates daily and monthly KPIs, generates visual reports with Matplotlib, and sends an executive summary to Telegram.
+El proyecto permite analizar dotación, altas, bajas, rotación, retención, asistencia, ausentismo, horas extra, tardanzas, desempeño, compromiso y capacitación.
 
-This repository is prepared as a portfolio project for Data Analyst, BI Analyst and Junior Analytics Engineer roles. Real data, credentials, private endpoints and production outputs are not included for security reasons.
+La solución integra Python para generación, validación y análisis de datos; SQL Server para estructuración relacional, vistas y controles de calidad; Power Query para transformación; y Power BI con DAX para construir un modelo analítico y un dashboard ejecutivo de cuatro páginas.
 
-##  Process Workflow
+Todos los datos utilizados son sintéticos y reproducibles. No corresponden a empleados ni a una organización real.
+
+## Process Workflow
 
 ```mermaid
 flowchart TD
-    A["Operational Need<br/><br/>Daily production visibility"]
-    B["SQL Server Database<br/><br/>Sales and campaign data"]
-    C["Python Reporting Engine<br/><br/>Data extraction<br/>KPI calculation<br/>Chart generation"]
-    D["Telegram Delivery<br/><br/>Executive message<br/>Hourly chart<br/>Monthly chart"]
-    E["Business Monitoring<br/><br/>Daily tracking<br/>Goal attainment<br/>Supervisor alerts"]
+    A["Necesidad de negocio<br/><br/>Visibilidad integral de RR. HH."]
+    B["Python<br/><br/>Generación de datos<br/>Validaciones<br/>Análisis de KPIs"]
+    C["CSV<br/><br/>Fuentes reproducibles"]
+    D["SQL Server<br/><br/>Tablas<br/>Vistas analíticas<br/>Quality checks"]
+    E["Power Query<br/><br/>Tipado<br/>Transformación<br/>Preparación"]
+    F["Power BI + DAX<br/><br/>Modelo semántico<br/>KPIs<br/>Dashboard"]
+    G["Gestión de RR. HH.<br/><br/>Dotación<br/>Rotación<br/>Ausentismo<br/>Desempeño"]
 
     A --> B
     B --> C
     C --> D
+    C --> E
     D --> E
+    E --> F
+    F --> G
 ```
 
-##  Portfolio Case
+## Analytical Case
 
-| Category | Description |
+| Categoría | Descripción |
 |---|---|
-| Industry | Call Center / Financial Services |
-| Business Area | Sales Operations |
-| Main Problem | Manual production monitoring |
-| Solution Type | Automated KPI reporting |
-| Data Source | SQL Server |
-| Automation Channel | Telegram Bot API |
-| Output | Executive message, hourly chart and monthly chart |
-| Target Roles | Data Analyst, BI Analyst, Analytics Engineer Jr |
+| Área de negocio | Recursos Humanos / People Analytics |
+| Problema principal | Consolidación y seguimiento de indicadores de gestión de personas |
+| Tipo de solución | Dashboard analítico de RR. HH. |
+| Fuente del escenario | Datos sintéticos reproducibles |
+| Capa de procesamiento | Python / pandas |
+| Capa relacional | SQL Server |
+| Transformación | Power Query |
+| Visualización | Power BI |
+| Lenguaje analítico | DAX |
+| Salida | Dashboard ejecutivo de 4 páginas |
 
-##  Business Problem
+## Business Problem
 
-Call center operations require frequent visibility into production performance during the workday.
+La gestión de Recursos Humanos requiere visibilidad sobre la evolución de la dotación y los principales indicadores asociados al ciclo laboral.
 
-Operational teams need to answer questions such as:
+Entre las preguntas que debe responder una solución de People Analytics se encuentran:
 
-- How much production has been generated today?
-- How is the campaign performing against the daily goal?
-- What is the production trend by hour?
-- How is the month progressing against business expectations?
-- How quickly can supervisors and managers receive updated indicators?
+- ¿Cómo evoluciona la dotación de colaboradores?
+- ¿Cuántas altas y bajas se producen por período?
+- ¿Qué áreas presentan mayor rotación?
+- ¿Cuáles son los principales motivos de salida?
+- ¿Qué porcentaje de los colaboradores iniciales permanece al cierre?
+- ¿En qué bandas de antigüedad se concentran las desvinculaciones?
+- ¿Qué áreas presentan mayor ausentismo?
+- ¿Cómo se distribuyen tardanzas y horas extra?
+- ¿Cómo evolucionan el desempeño y el compromiso?
+- ¿Qué relación existe entre capacitación y desempeño?
 
-Without automation, this process usually depends on manual database queries, spreadsheet manipulation, chart generation and message distribution.
+Sin una capa analítica integrada, estas preguntas suelen depender de múltiples archivos, consultas aisladas y cálculos manuales.
 
-That creates operational friction, delays decision-making and increases the risk of inconsistent reporting.
+## Solution Overview
 
-##  Solution Overview
+La solución organiza el análisis en cuatro frentes:
 
-This project automates the reporting workflow from data extraction to Telegram delivery.
+1. **Resumen de Dotación**
+2. **Rotación y Retención**
+3. **Asistencia y Ausentismo**
+4. **Desempeño y Desarrollo**
 
-The solution:
+El flujo combina preparación de datos, controles de calidad, modelado relacional, transformación y visualización ejecutiva.
 
-- Connects to SQL Server using environment-based credentials.
-- Executes parameterized queries for daily and monthly production.
-- Transforms operational data using pandas.
-- Calculates executive KPIs such as daily production, monthly production, goal attainment and sales distribution.
-- Generates charts with Matplotlib.
-- Sends the executive message and images through Telegram.
-- Logs process events for operational traceability.
-- Can be scheduled using Windows Task Scheduler.
+## Business Value
 
-The goal is not only to produce a report, but to create a repeatable and auditable reporting process.
+La solución permite:
 
-##  Business Value
+- Centralizar indicadores de gestión de personas.
+- Monitorear la evolución de la dotación.
+- Identificar áreas con mayor rotación.
+- Analizar motivos de salida y bajas voluntarias.
+- Evaluar retención mediante lógica de cohorte.
+- Detectar concentración de ausentismo.
+- Comparar horas extra y tardanzas entre áreas o modalidades.
+- Analizar desempeño, compromiso y capacitación.
+- Facilitar la toma de decisiones basada en indicadores.
+- Disponer de un flujo reproducible y documentado.
 
-This automation provides value by:
+## Main Features
 
-- Reducing manual reporting work.
-- Improving visibility of production during the workday.
-- Standardizing the format of operational reports.
-- Accelerating communication with supervisors and business users.
-- Supporting faster decisions based on updated KPIs.
-- Reducing dependency on manual SQL queries and spreadsheet-based reporting.
-- Creating a reusable reporting pattern for other campaigns.
+- Generación de datos sintéticos con Python.
+- Validaciones de calidad con pandas.
+- Scripts SQL Server para creación de tablas.
+- Plantilla de carga desde CSV.
+- Vistas analíticas de KPIs.
+- Controles de calidad en SQL.
+- Transformación de tipos de datos con Power Query.
+- Tabla calendario en Power BI.
+- Medidas DAX para indicadores dinámicos.
+- Filtros por año y área.
+- Dashboard ejecutivo de cuatro páginas.
+- Documentación técnica en GitHub.
 
-##  Main Features
+## Data Model
 
-- Secure configuration through environment variables.
-- SQL Server connection using ODBC.
-- Daily production query by hour.
-- Monthly production consolidation.
-- Daily goal and attainment calculation.
-- Automatic chart generation.
-- Telegram message delivery.
-- Telegram image delivery.
-- Retry logic for temporary Telegram network errors.
-- Controlled delivery window by day and hour.
-- Local logging for traceability.
-- Designed for Windows Task Scheduler automation.
-- Portfolio-safe structure without real credentials or private data.
+![Modelo de datos Power BI](docs/imagenes/00_modelo_datos_powerbi.png)
 
-##  Reporting Logic
+El modelo utiliza las siguientes entidades principales:
 
-The reporting process follows a simple business-oriented logic:
+| Tabla | Función |
+|---|---|
+| `employees` | Maestro de colaboradores |
+| `attendance_monthly` | Hechos mensuales de asistencia |
+| `performance_training` | Evaluaciones, compromiso y capacitación |
+| `Calendario` | Dimensión temporal |
+| `Medidas RRHH` | Organización de medidas DAX |
 
-1. Extract daily production from SQL Server.
-2. Extract monthly accumulated production.
-3. Calculate daily and monthly totals.
-4. Compare daily production against the configured goal.
-5. Split production by operational categories when applicable.
-6. Generate visual summaries.
-7. Send the final output to Telegram.
-8. Register execution results in local logs.
+Relaciones principales:
 
-This structure allows business users to receive a concise view of campaign performance without manually accessing the database or preparing reports.
+```text
+employees[EmployeeID] 1 ─── * attendance_monthly[EmployeeID]
+employees[EmployeeID] 1 ─── * performance_training[EmployeeID]
 
-##  Technical Architecture
+Calendario[Fecha]     1 ─── * attendance_monthly[FechaMes]
+Calendario[Fecha]     1 ─── * performance_training[ReviewDate]
+```
+
+## Dashboard Pages
+
+### 1. Resumen de Dotación
+
+![Resumen de Dotación](docs/imagenes/01_resumen_dotacion.png)
+
+Esta página ofrece una visión ejecutiva de la fuerza laboral.
+
+Indicadores principales:
+
+- Dotación actual.
+- Altas.
+- Bajas.
+- Rotación acumulada.
+
+Análisis incluidos:
+
+- Evolución mensual de la dotación.
+- Evolución mensual de altas y bajas.
+- Dotación por área.
+- Distribución por tipo de contrato.
+- Distribución por modalidad de trabajo.
+
+### 2. Rotación y Retención
+
+![Rotación y Retención](docs/imagenes/02_rotacion_retencion.png)
+
+Esta página permite analizar dónde se producen las desvinculaciones y cuáles son sus principales características.
+
+Indicadores principales:
+
+- Bajas.
+- Rotación acumulada.
+- Tasa de retención.
+- Porcentaje de bajas voluntarias.
+
+Análisis incluidos:
+
+- Evolución mensual de la rotación.
+- Rotación por área.
+- Principales motivos de salida.
+- Bajas según antigüedad al cese.
+- Rotación por tipo de contrato.
+
+### 3. Asistencia y Ausentismo
+
+![Asistencia y Ausentismo](docs/imagenes/03_asistencia_ausentismo.png)
+
+Esta página analiza asistencia, ausencias y señales asociadas a carga laboral.
+
+Indicadores principales:
+
+- Tasa de ausentismo.
+- Días de ausencia.
+- Días de descanso médico.
+- Tardanzas.
+- Horas extra.
+
+Análisis incluidos:
+
+- Evolución mensual del ausentismo.
+- Tasa de ausentismo por área.
+- Composición mensual de las ausencias.
+- Horas extra promedio por empleado y área.
+- Tardanzas promedio por empleado y modalidad.
+
+### 4. Desempeño y Desarrollo
+
+![Desempeño y Desarrollo](docs/imagenes/04_desempeno_desarrollo.png)
+
+Esta página analiza desempeño, compromiso y desarrollo de los colaboradores.
+
+Indicadores principales:
+
+- Desempeño promedio.
+- Compromiso promedio.
+- Horas de capacitación.
+- Colaboradores evaluados.
+- Colaboradores de alto desempeño.
+
+Análisis incluidos:
+
+- Evolución del desempeño.
+- Evolución del compromiso.
+- Desempeño por área.
+- Compromiso por área.
+- Capacitación por área.
+- Capacitación vs. desempeño por área.
+
+## KPI Logic
+
+### Dotación Actual
+
+Cantidad de colaboradores activos en la fecha de corte.
+
+```text
+HireDate <= Fecha de corte
+AND
+TerminationDate es nula o posterior a la fecha de corte
+```
+
+### Altas
+
+Colaboradores cuya fecha de ingreso se encuentra dentro del período seleccionado.
+
+### Bajas
+
+Colaboradores cuya fecha de cese se encuentra dentro del período seleccionado.
+
+### Dotación Promedio
+
+```text
+Dotación promedio = promedio de la dotación mensual
+```
+
+### Tasa de Rotación
+
+```text
+Tasa de rotación = Bajas / Dotación promedio
+```
+
+Cuando se seleccionan varios meses, la tarjeta representa la rotación acumulada del período seleccionado.
+
+### Tasa de Retención
+
+La retención se calcula mediante lógica de cohorte:
+
+```text
+Retención =
+Colaboradores presentes al inicio que permanecen al cierre
+/
+Colaboradores presentes al inicio
+```
+
+### Bajas Voluntarias
+
+Se consideran voluntarias dentro del escenario:
+
+- Renuncia voluntaria.
+- Motivos personales.
+- Cambio de residencia.
+
+### Tasa de Ausentismo
+
+```text
+Tasa de ausentismo =
+(Ausencias injustificadas + Días de descanso médico)
+/
+Días laborales programados
+```
+
+### Desempeño
+
+Promedio de `PerformanceScore`, con escala de 1 a 5.
+
+### Compromiso
+
+Promedio de `EngagementScore`, con escala de 0 a 100.
+
+## Technical Architecture
 
 ```mermaid
 flowchart TD
-    A["main.py<br/><br/>Orchestration"]
-    B["database.py<br/><br/>SQL Server connection"]
-    C["queries.py<br/><br/>Daily and monthly SQL queries"]
-    D["report.py<br/><br/>Data transformation and chart generation"]
-    E["telegram_sender.py<br/><br/>Message and image delivery"]
-    F["logs/<br/><br/>Execution traceability"]
-    G["outputs/<br/><br/>Generated charts"]
+    A["generate_hr_data.py<br/><br/>Generación de datos sintéticos"]
+    B["analyze_hr_kpis.py<br/><br/>Validaciones y análisis"]
+    C["data/<br/><br/>CSV principales"]
+    D["SQL Server scripts<br/><br/>Tablas<br/>Carga<br/>Vistas<br/>Quality checks"]
+    E["Power Query<br/><br/>Transformaciones"]
+    F["Power BI Model<br/><br/>Calendario<br/>Relaciones<br/>DAX"]
+    G["Dashboard<br/><br/>4 páginas analíticas"]
+    H["docs/<br/><br/>Snapshots<br/>KPIs derivados<br/>Imágenes"]
 
-    A --> B
     A --> C
-    A --> D
-    A --> E
-    D --> G
-    A --> F
+    C --> B
+    B --> H
+    C --> D
+    C --> E
+    D --> E
+    E --> F
+    F --> G
 ```
 
-##  Tech Stack
+## Tech Stack
 
-| Technology | Purpose |
+| Tecnología | Propósito |
 |---|---|
-| Python | Main automation language |
-| pandas | Data transformation and KPI calculation |
-| SQLAlchemy | Database connectivity layer |
-| pyodbc | SQL Server driver integration |
-| SQL Server | Operational data source |
-| Matplotlib | Chart generation |
-| NumPy | Numeric processing support |
-| requests | Telegram API communication |
-| python-dotenv | Environment variable management |
-| Telegram Bot API | Report delivery channel |
-| Windows Task Scheduler | Local process automation |
+| Python | Generación y procesamiento de datos |
+| pandas | Validación, transformación y análisis |
+| SQL Server | Capa relacional y consultas |
+| T-SQL | Tablas, vistas y quality checks |
+| Power Query | Preparación y tipado |
+| Power BI | Modelo semántico y dashboard |
+| DAX | KPIs dinámicos |
+| Git | Control de versiones |
+| GitHub | Documentación y publicación |
 
-##  Project Structure
+## Project Structure
 
 ```text
 .
-├── database.py              # SQL Server connection and query execution
-├── queries.py               # SQL queries for daily and monthly reporting
-├── report.py                # Data transformation and chart generation
-├── telegram_sender.py       # Telegram message and image delivery
-├── main.py                  # Main orchestration workflow
-├── test_connection.py       # Manual SQL Server connection validation
-├── test_report_query.py     # Manual validation of the main report query
-├── requirements.txt         # Project dependencies
-├── .env.example             # Environment variable template
-├── .gitignore               # Git exclusions
-└── docs/
-    └── PROJECT_OVERVIEW.md  # Technical project overview
+├── data/
+│   ├── employees.csv
+│   ├── attendance_monthly.csv
+│   ├── performance_training.csv
+│   └── data_quality_summary.csv
+│
+├── python/
+│   ├── generate_hr_data.py
+│   └── analyze_hr_kpis.py
+│
+├── sql/
+│   ├── 01_create_tables.sql
+│   ├── 02_load_csv_template.sql
+│   ├── 03_views_kpis.sql
+│   └── 04_quality_checks.sql
+│
+├── dax/
+│   └── medidas_dax_rrhh.txt
+│
+├── powerbi/
+│   └── Dashboard_Analitica_RRHH.pbix
+│
+├── docs/
+│   ├── analytical_snapshot.md
+│   ├── department_summary.csv
+│   ├── exit_reasons.csv
+│   ├── monthly_kpis.csv
+│   └── imagenes/
+│       ├── 00_modelo_datos_powerbi.png
+│       ├── 01_resumen_dotacion.png
+│       ├── 02_rotacion_retencion.png
+│       ├── 03_asistencia_ausentismo.png
+│       └── 04_desempeno_desarrollo.png
+│
+├── requirements.txt
+├── .gitignore
+└── README.md
 ```
 
-The following local resources are excluded from the repository:
+## Dataset Snapshot
 
-- `logs/`
-- `outputs/`
-- Python virtual environments
-- Python cache files
-- Local scheduler scripts
-- Real credentials
-- Private endpoints
-
-##  Example Telegram Output
+El escenario contiene:
 
 ```text
-REPORTE PRODUCCIÓN APLAZALOH
-
-Total B Mes: S/ 1,250,000.00
-Total N Mes: S/ 1,120,000.00
-Total Día: S/ 85,000.00
-Total N Día: S/ 78,500.00
-Meta Día: S/ 260,869.57
-Cumplimiento Día: 30.09%
-
-Cantidad Vendida Día
-Total: 120
-FLG2: 75
-FLG6: 45
+1,600 colaboradores históricos
+1,380 colaboradores activos al corte
+220 bajas históricas
+41,539 registros mensuales de asistencia
+6,536 evaluaciones de desempeño y capacitación
 ```
 
-The values above are illustrative and do not represent real production data.
+Período analítico:
 
-##  Generated Outputs
-
-The automation generates:
-
-- Executive Telegram message.
-- Hourly production chart.
-- Monthly accumulated production chart.
-- Local execution logs.
-
-The output files are generated locally and are not included in the repository because they may contain operational information.
-
-##  Environment Configuration
-
-Create a local `.env` file from `.env.example`:
-
-```bash
-copy .env.example .env
+```text
+Enero 2024 – Agosto 2026
 ```
 
-Configure the required variables:
+Las fechas de ingreso anteriores a 2024 se conservan para calcular correctamente la antigüedad y la dotación inicial.
 
-```env
-SQL_SERVER=
-SQL_DATABASE=
-SQL_USERNAME=
-SQL_PASSWORD=
-SQL_DRIVER=ODBC Driver 18 for SQL Server
+## Data Quality Controls
 
-TELEGRAM_BOT_TOKEN=
-TELEGRAM_CHAT_ID=
-```
+El proyecto valida:
 
-Security rules:
+- `EmployeeID` duplicados.
+- Áreas faltantes.
+- Fechas de cese anteriores a la fecha de ingreso.
+- Salarios negativos.
+- Registros de asistencia superiores a los días programados.
+- Registros de hechos sin colaborador asociado.
+- Valores fuera de rango en desempeño y compromiso.
+- Consistencia de tipos de datos.
+- Correcta interpretación de campos decimales.
 
-- Never commit `.env`.
-- Keep `.env.example` free of real credentials.
-- Do not expose Telegram tokens or chat IDs.
-- Regenerate exposed tokens immediately from BotFather.
+## Python Execution
 
-##  Telegram Bot Setup
-
-To enable Telegram delivery:
-
-1. Open Telegram.
-2. Search for the official `BotFather`.
-3. Create a new bot using `/newbot`.
-4. Copy the generated token.
-5. Save the token as `TELEGRAM_BOT_TOKEN` in the local `.env` file.
-6. Start a private chat with the bot or add it to a reporting group.
-7. Obtain the corresponding `TELEGRAM_CHAT_ID`.
-8. Save the chat ID in `.env`.
-
-Safe example:
-
-```env
-TELEGRAM_BOT_TOKEN=your_bot_token_here
-TELEGRAM_CHAT_ID=your_chat_id_here
-```
-
-##  Installation
-
-Create and activate a virtual environment:
-
-```bash
-python -m venv .venv
-.venv\Scripts\activate
-```
-
-Install dependencies:
+Instalar dependencias:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-The machine must also have a compatible SQL Server driver installed, such as:
+Generar nuevamente los datasets:
+
+```bash
+python python/generate_hr_data.py
+```
+
+Ejecutar análisis y controles:
+
+```bash
+python python/analyze_hr_kpis.py
+```
+
+## SQL Server Layer
+
+Ejecutar los scripts en orden:
 
 ```text
-ODBC Driver 18 for SQL Server
+sql/01_create_tables.sql
+sql/02_load_csv_template.sql
+sql/03_views_kpis.sql
+sql/04_quality_checks.sql
 ```
 
-##  Manual Execution
+En `02_load_csv_template.sql` se debe adaptar la ruta de los archivos CSV al entorno local.
 
-Run the main process:
+La capa SQL permite almacenar la información de forma relacional, implementar controles de integridad y exponer vistas analíticas.
 
-```bash
-python main.py
+## Power BI
+
+El dashboard final se encuentra en:
+
+```text
+powerbi/Dashboard_Analitica_RRHH.pbix
 ```
 
-The script validates the configured delivery window before generating and sending the report.
+Las medidas utilizadas se documentan en:
 
-##  Validate SQL Server Connection
-
-To test the database connection:
-
-```bash
-python test_connection.py
+```text
+dax/medidas_dax_rrhh.txt
 ```
 
-This test requires a valid local `.env` file.
+La versión `.pbix` incluida utiliza los CSV como fuente para facilitar la reproducción del proyecto.
 
-##  Validate Report Query
+## Possible Extensions
 
-To test the main report query:
+Posibles mejoras futuras:
 
-```bash
-python test_report_query.py
-```
+- Conexión directa de Power BI a SQL Server.
+- Automatización de actualización del modelo.
+- Análisis de compensaciones.
+- Presupuesto de nómina.
+- Identificación de posiciones críticas.
+- Análisis avanzado de cohortes.
+- Segmentación por antigüedad y desempeño.
+- Indicadores de movilidad interna.
+- Incorporación de metas y benchmarks.
+- Publicación en Power BI Service.
 
-This allows query validation before running the full Telegram delivery process.
+## Disclaimer
 
-##  Automation with Windows Task Scheduler
+Este repositorio utiliza exclusivamente datos sintéticos.
 
-The project can be automated with Windows Task Scheduler using a local script that:
+No contiene información personal real, credenciales, endpoints privados ni información confidencial de ninguna organización.
 
-1. Activates the Python environment.
-2. Moves to the project directory.
-3. Executes `python main.py`.
-4. Stores logs locally.
+El objetivo es representar una arquitectura reproducible para análisis de Recursos Humanos y People Analytics.
 
-Recommendations:
-
-- Keep local machine paths outside the repository.
-- Do not include passwords, tokens or chat IDs in scheduler scripts.
-- Configure the execution frequency according to operational needs.
-- Review local logs when a scheduled execution fails.
-
-##  Possible Extensions
-
-Future improvements may include:
-
-- Power BI integration.
-- Historical report storage.
-- Multiple campaign support.
-- Dynamic goal configuration.
-- Automatic anomaly detection.
-- Forecasting integration.
-- Email delivery in addition to Telegram.
-- Docker-based deployment.
-- Cloud deployment with Azure Functions or similar services.
-
-##  Disclaimer
-
-This repository does not include internal data, credentials, tokens, chat IDs, private endpoints or real production outputs.
-
-All sensitive variables must be configured only in a local `.env` file excluded by `.gitignore`.
-
-The project is presented as a portfolio-safe version of a business reporting automation pattern.
-
-##  Author
+## Author
 
 **Darwin Camacho**  
-Data Analyst | SQL Server | Python | Power BI | Business Intelligence | Sales Analytics
+Data Analyst | SQL Server | Python | Power BI | Business Intelligence | People Analytics
 
 - GitHub: [darwincamacho](https://github.com/darwincamacho)
 - LinkedIn: www.linkedin.com/in/darwincamachoherrera
