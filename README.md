@@ -1,69 +1,73 @@
-# Automatización de reportes de producción | SQL Server, Python y Telegram
+# Automated Call Center Reporting | SQL Server, Python & Telegram
 
-> Proyecto de automatización de reporting operativo para una campaña de call center, integrando consultas SQL Server, procesamiento con Python, gráficos con Matplotlib y distribución mediante Telegram.
+> A Python-based reporting workflow that retrieves call center production data from SQL Server, prepares operational KPIs, generates charts, and delivers reports through a Telegram bot.
 
-## Resumen ejecutivo
+## Overview
 
-Este proyecto implementa un flujo de reporting para la campaña **Aplazaloh**. Extrae indicadores de producción desde SQL Server, prepara los datos con Python y pandas, genera visualizaciones y distribuye un resumen ejecutivo mediante un bot de Telegram.
+This project documents a reporting automation workflow developed around the **Aplazaloh** campaign. It combines SQL Server queries, Python data processing, Matplotlib visualizations, and the Telegram Bot API to prepare and distribute recurring production summaries.
 
-Su objetivo es reducir el trabajo manual de elaboración y distribución de reportes, facilitando el seguimiento periódico de resultados comerciales y cumplimiento de metas.
+The workflow is designed to reduce manual reporting effort and make daily performance information easier to share. It depends on access to the appropriate operational database and a configured Telegram bot; this repository does not contain a production database, real customer data, or a ready-to-run public demo.
 
-**Alcance:** este repositorio documenta la implementación técnica. No se publican datos operativos confidenciales, credenciales ni capturas de reportes reales.
+## Business Use Case
 
-## Problema de negocio
+Call center operations need frequent visibility into sales production, daily targets, and month-to-date performance. Preparing and sharing these indicators manually can involve repeated database queries, spreadsheet work, chart creation, and message formatting.
 
-En una operación de call center, el seguimiento de la producción requiere consultar resultados, calcular indicadores y compartir información de manera recurrente. Cuando estas actividades se ejecutan manualmente, consumen tiempo y pueden generar diferencias entre reportes.
+This implementation organizes those steps into a modular reporting pipeline. It produces a formatted KPI message and two charts from SQL Server query results.
 
-La solución organiza el proceso en módulos y permite preparar mensajes y gráficos con un formato consistente.
-
-## Arquitectura y flujo
+## Reporting Workflow
 
 ```mermaid
 flowchart LR
-    A[SQL Server] --> B[Consultas SQL]
-    B --> C[Python y pandas]
-    C --> D[Indicadores y gráficos]
-    D --> E[Telegram Bot API]
-    C --> F[Logs]
+    A[SQL Server] --> B[SQL queries]
+    B --> C[Python + pandas]
+    C --> D[KPI summary]
+    C --> E[Matplotlib charts]
+    D --> F[Telegram Bot API]
     E --> F
+    C --> G[Execution logs]
+    F --> G
 ```
 
-1. **Extracción:** `database.py` ejecuta las consultas definidas en `queries.py` contra SQL Server.
-2. **Transformación:** `report.py` valida columnas, normaliza tipos y prepara los indicadores mediante pandas.
-3. **Visualización:** Matplotlib genera un gráfico de producción por hora y otro del consolidado mensual.
-4. **Distribución:** `telegram_sender.py` envía el resumen y las imágenes mediante la Telegram Bot API.
-5. **Trazabilidad:** `main.py` registra eventos y errores en `logs/app.log`.
+1. **Extract:** `database.py` reads SQL Server query results defined in `queries.py`, using SQLAlchemy and pyodbc.
+2. **Transform:** `report.py` checks required columns, converts data types, and prepares reporting datasets with pandas.
+3. **Visualize:** Matplotlib creates an hourly production bar chart and a month-to-date daily production chart.
+4. **Deliver:** `telegram_sender.py` sends an HTML-formatted summary and the generated chart images through the Telegram Bot API.
+5. **Log:** `main.py` records execution events and errors in `logs/app.log`.
 
-## Indicadores incluidos
+## KPIs and Outputs
 
-El mensaje ejecutivo contempla:
+The Telegram summary includes:
 
-- Total B del mes y total N del mes.
-- Producción total del día y total N del día.
-- Meta diaria y porcentaje de cumplimiento.
-- Cantidad vendida del día, total y desagregada en FLG2 y FLG6.
+- Month-to-date total B and total N.
+- Daily total and daily total N.
+- Daily target and achievement percentage.
+- Daily sales count, including FLG2 and FLG6 counts.
 
-Las visualizaciones generadas son:
+The reporting module generates:
 
-- **Venta por hora:** gráfico de barras con el monto de producción por hora.
-- **Consolidado mensual:** evolución diaria de la producción, con línea de tendencia cuando existen al menos dos observaciones.
+| Output | Description | Local file |
+|---|---|---|
+| Hourly production chart | Bar chart of production amount by hour, for hours with positive production | `outputs/grafico_produccion_aplazaloh.png` |
+| Monthly production chart | Daily production amounts for the current month, with a trend line when there are at least two data points | `outputs/grafico_consolidado_mes.png` |
+| KPI message | Formatted text summary delivered via Telegram | Sent as a Telegram message |
+| Execution log | Information and error records | `logs/app.log` |
 
-Las definiciones operativas de B, N, FLG2 y FLG6 dependen de las reglas de negocio de la campaña y de las consultas SQL utilizadas.
+**Business-specific terminology:** B, N, FLG2, and FLG6 are campaign reporting fields retained from the source system. The SQL queries apply campaign-specific calculations, including a weighting factor for FLG6 in the N totals. Their business definitions should be confirmed against the applicable operational rules before adapting this project.
 
-## Tecnologías
+## Technology Stack
 
-| Tecnología | Función |
+| Technology | Role |
 |---|---|
-| SQL Server | Fuente de datos operativos |
-| Python | Orquestación del flujo |
-| pandas | Preparación y validación de datos |
-| Matplotlib y NumPy | Visualización y cálculos auxiliares |
-| SQLAlchemy / pyodbc | Acceso a SQL Server |
-| Requests | Comunicación con Telegram Bot API |
-| python-dotenv | Lectura de variables de entorno |
-| Git / GitHub | Versionado y documentación |
+| Python | Workflow orchestration |
+| SQL Server / T-SQL | Operational data source and KPI queries |
+| SQLAlchemy + pyodbc | SQL Server connectivity |
+| pandas | Data validation and transformation |
+| Matplotlib + NumPy | Chart generation |
+| Requests | Telegram Bot API requests |
+| python-dotenv | Environment-based configuration |
+| Git / GitHub | Version control and documentation |
 
-## Estructura del repositorio
+## Repository Structure
 
 ```text
 .
@@ -82,66 +86,100 @@ Las definiciones operativas de B, N, FLG2 y FLG6 dependen de las reglas de negoc
 └── test_*.py
 ```
 
-Los directorios `outputs/` y `logs/` se utilizan durante la ejecución para almacenar gráficos y registros, respectivamente.
+The `outputs/` and `logs/` directories are generated during execution and excluded from version control.
 
-## Componentes principales
+### Core Modules
 
-| Archivo | Responsabilidad |
+| Module | Responsibility |
 |---|---|
-| `main.py` | Coordinar consultas, generación de gráficos y envío |
-| `database.py` | Gestionar la conexión y lectura desde SQL Server |
-| `queries.py` | Centralizar consultas de producción y consolidado |
-| `report.py` | Validar DataFrames, calcular resúmenes y generar gráficos |
-| `telegram_sender.py` | Enviar mensajes y fotografías con reintentos ante fallos de conexión |
-| `config.py` | Configuración complementaria del proyecto |
+| `main.py` | Coordinates database extraction, chart generation, message composition, delivery, and logging |
+| `database.py` | Reads connection settings from environment variables and executes SQL queries |
+| `queries.py` | Defines the current-day/hourly production and current-month consolidated SQL queries |
+| `report.py` | Validates DataFrames, prepares metrics, and creates PNG charts |
+| `telegram_sender.py` | Sends text and images through Telegram, with retries for transient network errors |
 
-## Reglas de ejecución
+## Execution Window
 
-La función `should_send_report` de `main.py` permite continuar el proceso únicamente cuando se cumplen estas condiciones:
+The `should_send_report()` function in `main.py` allows reporting to proceed only when all of the following conditions are met:
 
-- No es domingo.
-- La hora está comprendida entre las 09:00 y las 20:00.
-- El minuto de ejecución es 00 o 30.
+- The current day is not Sunday.
+- Local system time is between **09:00 and 20:00**, inclusive.
+- The current minute is **00 or 30**.
 
-**Importante:** estas son condiciones de validación dentro del programa. Para ejecutar el proceso automáticamente en esos horarios se necesita configurar un programador de tareas externo.
+These conditions **do not schedule the program automatically**. An external task scheduler is required to trigger executions, and actual trigger times must be configured separately.
 
-## Configuración y ejecución
+## Setup
 
-Se requiere Python, acceso autorizado al SQL Server correspondiente y credenciales propias de un bot de Telegram.
+### Prerequisites
 
-1. Clonar el repositorio e instalar las dependencias de `requirements.txt`.
-2. Crear un archivo `.env` local tomando `.env.example` como referencia y configurar las variables necesarias, incluidas `TELEGRAM_BOT_TOKEN` y `TELEGRAM_CHAT_ID`.
-3. Verificar la conexión a SQL Server y la compatibilidad de las consultas con la estructura de datos disponible.
-4. Ejecutar `python main.py` en un entorno autorizado, dentro de la ventana permitida.
+- Python and the packages listed in `requirements.txt`.
+- A supported SQL Server ODBC driver (the sample configuration uses ODBC Driver 18 for SQL Server).
+- Authorized access to a SQL Server database with the expected source schema.
+- A Telegram bot token and destination chat ID.
 
-La ejecución real requiere infraestructura y credenciales propias. El repositorio no incluye una base de datos operativa lista para usar.
+### Local Configuration
 
-## Seguridad
+1. Clone the repository.
+2. Install dependencies:
 
-- No publicar el archivo `.env` ni tokens de Telegram.
-- Mantener las credenciales de SQL Server fuera del código fuente.
-- Utilizar `.env.example` exclusivamente como plantilla.
-- Evitar publicar datos de clientes, producción confidencial o capturas con información sensible.
-- Revisar permisos y destinatarios antes de habilitar envíos automáticos.
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
-## Validaciones y manejo de errores
+3. Copy `.env.example` to a local `.env` file and supply your own credentials:
 
-El código contempla validación de columnas obligatorias, conversión de tipos numéricos, comprobación de DataFrames vacíos, registro de errores y reintentos de comunicación ante fallos transitorios de red.
+   ```dotenv
+   SQL_SERVER=
+   SQL_DATABASE=
+   SQL_USERNAME=
+   SQL_PASSWORD=
+   SQL_DRIVER=ODBC Driver 18 for SQL Server
 
-Estas defensas no sustituyen las pruebas de integración en el entorno real.
+   TELEGRAM_BOT_TOKEN=
+   TELEGRAM_CHAT_ID=
+   ```
 
-## Limitaciones
+4. Review `queries.py` and verify that the referenced table, columns, KPI formulas, and targets match your authorized reporting environment.
+5. When the database and Telegram configuration have been verified, run the workflow within the permitted execution window:
 
-- Depende de la disponibilidad y estructura de SQL Server.
-- El envío depende de la Telegram Bot API y de credenciales válidas.
-- El programador de tareas debe configurarse por separado.
-- Los resultados y las imágenes requieren datos de producción accesibles en el entorno autorizado.
-- La publicación del repositorio no demuestra por sí sola una ejecución programada en producción.
+   ```bash
+   python main.py
+   ```
 
-## Documentación adicional
+**Do not use real credentials or customer data in public commits.** The SQL queries are specific to the original source schema, so adapting this project to another environment requires checking and potentially changing the queries.
 
-Consultar [Project Overview](docs/PROJECT_OVERVIEW.md) para una descripción complementaria de la arquitectura y las decisiones técnicas.
+## Error Handling and Operational Considerations
+
+The implementation includes:
+
+- Checks for required SQL Server and Telegram environment variables.
+- Required-column and empty-DataFrame checks before chart generation.
+- Numeric and date conversions with pandas.
+- Logging of execution steps and exceptions.
+- Up to three attempts for selected transient Telegram network failures.
+
+HTTP errors that are not treated as transient network failures may stop delivery without a retry. The code does not provide a standalone scheduling service, a monitoring dashboard, or a public integration environment.
+
+## Security and Privacy
+
+- Store database and Telegram credentials in environment variables, not in source code.
+- Keep the actual `.env` file private; `.gitignore` excludes it from commits.
+- Treat `.env.example` as a template only.
+- Do not publish operational datasets, customer details, production screenshots, or bot tokens.
+- Verify Telegram recipients and database permissions before enabling automated delivery.
+
+## Limitations
+
+- Database queries depend on a campaign-specific SQL Server schema and business rules.
+- Chart generation requires suitable query results; the hourly report rejects datasets without positive hourly production.
+- Message delivery depends on Telegram availability and valid credentials.
+- Automatic execution requires separate scheduling on the host machine.
+- This repository is a technical implementation and documentation example; publishing the code does not establish successful integration testing or continuous production operation.
+
+## Additional Documentation
+
+See [Project Overview](docs/PROJECT_OVERVIEW.md) for supplementary technical notes (**in Spanish**).
 
 ---
 
-**Proyecto de portafolio técnico:** automatización de reportes operativos con SQL Server, Python y Telegram.
+**Portfolio focus:** SQL Server reporting, Python automation, KPI processing, data visualization, and Telegram-based report delivery.
